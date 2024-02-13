@@ -98,7 +98,10 @@ class AzureOpenAI(ToolProvider):
             return generator()
         else:
             # get first element because prompt is single.
-            return response.choices[0].text
+            if n == 1:
+                return response.choices[0].text
+            else:
+                return '</sep>'.join([response.choices[i].text for i in range(int(n))])
 
     @tool
     @handle_openai_error()
